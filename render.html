@@ -32,7 +32,7 @@
 			rd.setTexture("u_texture1", texture0, 0); // init only
 		});
 		
-		// Render a single frame when the slider value changes
+		// Request for update when slider value changes (usefull in pause mode)
 		const speedSlider = document.getElementById('speedSlider');
 		speedSlider.addEventListener('input', () => {
 			glRenderer1.update();
