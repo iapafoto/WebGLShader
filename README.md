@@ -17,7 +17,7 @@ Set a parameter at each animation loop
 			rd.set1f("u_param", parseFloat(document.getElementById("slider").value)); // render loop
 		});
 
-Init a texture and associate it at beginning
+Init a texture and associate it at beginning (report to render.html for full code)
 
 		const glRenderer2 = new GLCanvas('canvas2', "metalocc.frag", (rd) => {
 			rd.setTexture("u_texture1", texture0, 0); // init only
