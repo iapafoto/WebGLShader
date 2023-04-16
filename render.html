@@ -16,43 +16,43 @@
 	<canvas class="full-width" id="canvas1"></canvas>
 	<canvas class="full-width" id="canvas2"></canvas>
 	<div>
-      <label>Speed:</label>
-      <input id="speedSlider" type="range" min="0" max="1" step="0.001" value="0.05">
+      <label>Slider:</label>
+      <input id="slider" type="range" min="0" max="1" step="0.001" value="0.05">
     </div>
 	
     <script>
-		const canvas2 = document.getElementById('canvas2');
-		var texture0 = loadTexture(canvas2, "texture1.jpg");
-		
-		const glRenderer1 = new GLCanvas('canvas1', "fragmentShader.frag", null, (rd) => {
-			rd.set1f("u_param", parseFloat(document.getElementById("speedSlider").value)); // render loop
+		// ------------------------------------------------
+		// first canvas animated and control via a slider
+		// ------------------------------------------------
+	    	const glRenderer1 = new GLCanvas('canvas1', "fragmentShader.frag", null, (rd) => { // rq: init callback is null here
+			rd.set1f("u_param", parseFloat(document.getElementById("slider").value)); // set value to glsl program during render loop
 		});
-	
-		const glRenderer2 = new GLCanvas('canvas2', "metalocc.frag", (rd) => {
-			rd.setTexture("u_texture1", texture0, 0); // init only
-		});
-		
-		// Request for update when slider value changes (usefull in pause mode)
+	    
+	    	// Request for update when slider value changes (usefull in pause mode)
 		const speedSlider = document.getElementById('speedSlider');
 		speedSlider.addEventListener('input', () => {
 			glRenderer1.update();
 		});
 
+		// ------------------------------------------------
+	    	// second canvas animated and using a texture 
+	    	// ------------------------------------------------
+	    	const canvas2 = document.getElementById('canvas2');
+		var texture0 = loadTexture(canvas2, "texture1.jpg"); // loading texture
+	    
+		const glRenderer2 = new GLCanvas(canvas2, "metalocc.frag", (rd) => {
+			rd.setTexture("u_texture1", texture0, 0); // set texture to webgl program
+		}); // rq: loop callback is undefined here
+		
+		// ------------------------------------------------
 		// Pause and resume rendering on canvas click
 		glRenderer1.canvas.addEventListener('click', () => {
-			if (glRenderer1.isPaused()) {
-				glRenderer1.start();
-			} else {
-				glRenderer1.pause();
-			}
+			if (glRenderer1.isPaused()) glRenderer1.start();
+			else                        glRenderer1.pause();	
 		});
-		
 	  	glRenderer2.canvas.addEventListener('click', () => {
-			if (glRenderer2.isPaused()) {
-				glRenderer2.start();
-			} else {
-				glRenderer2.pause();
-			}
+			if (glRenderer2.isPaused()) glRenderer2.start();
+			else  			    glRenderer2.pause();
 		});
 
 	
