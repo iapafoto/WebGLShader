@@ -23,3 +23,18 @@ Init a texture and associate it at beginning
 			rd.setTexture("u_texture1", texture0, 0); // init only
 		});
 
+Shader variable -iTime- and -iResolution- (shadertoy style) are automatically set 
+
+		#version 300 es
+
+		precision mediump float;
+
+		uniform float iTime;
+		uniform vec2 iResolution;
+
+		out vec4 outColor;
+
+		void main() {
+		  vec2 uv = gl_FragCoord.xy / iResolution.xy;
+		  outColor = vec4(uv+u_param, .5+.5*cos(3.*iTime), 1.0);
+		}
