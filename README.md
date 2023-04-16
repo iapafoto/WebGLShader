@@ -7,9 +7,9 @@ Gestion of animation, pause / start, textures, canvas resize, setTime, etc.
 The usefull file is ***GLCanvas.js***
 
 
-Simple assocaiation 
+Simple association (run glsl animation on canvas0)
 
-		const glRenderer0 = new GLCanvas('canvas2', "fragmentShader.frag");
+		const glRenderer0 = new GLCanvas('canvas.', "fragmentShader.frag");
     
 Set a parameter at each animation loop 
 
