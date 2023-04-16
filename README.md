@@ -1,8 +1,8 @@
 # WebGLShader
 
-Simple example that shows how to associate multi shaders to canvas in html page
+Simple example that shows how to associate multi glsl shaders to canvas in html page
 
-Gestion of animation, pause / start, textures, canvas resize, etc.
+Gestion of animation, pause / start, textures, canvas resize, setTime, etc.
 
 The usefull file is *GLCanvas.js*
 
