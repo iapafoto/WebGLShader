@@ -4,10 +4,10 @@ Simple example that shows how to associate multi glsl shaders to canvas in html 
 
 Gestion of animation, pause / start, textures, canvas resize, setTime, etc.
 
-The usefull file is *GLCanvas.js*
+The usefull file is ***GLCanvas.js***
 
 
-Simple assocaiation: 
+Simple assocaiation 
 
 		const glRenderer0 = new GLCanvas('canvas2', "fragmentShader.frag");
     
@@ -23,7 +23,7 @@ Init a texture and associate it at beginning
 			rd.setTexture("u_texture1", texture0, 0); // init only
 		});
 
-Shader variable -iTime- and -iResolution- (shadertoy style) are automatically set 
+Shader variable ***iTime*** and ***iResolution*** (*shadertoy* style) are automatically set 
 
 		#version 300 es
 
