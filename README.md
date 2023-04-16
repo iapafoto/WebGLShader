@@ -29,9 +29,10 @@ Shader variable -iTime- and -iResolution- (shadertoy style) are automatically se
 
 		precision mediump float;
 
-		uniform float iTime;
-		uniform vec2 iResolution;
-
+		uniform float iTime;       // auto
+		uniform vec2 iResolution;  // auto
+		uniform float u_param;     // user responsability
+		
 		out vec4 outColor;
 
 		void main() {
