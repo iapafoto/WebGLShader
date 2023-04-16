@@ -9,7 +9,7 @@ The usefull file is ***GLCanvas.js***
 
 Simple association (run glsl animation on canvas0)
 
-		const glRenderer0 = new GLCanvas('canvas.', "fragmentShader.frag");
+		const glRenderer0 = new GLCanvas('canvas0', "fragmentShader.frag");
     
 Set a parameter at each animation loop 
 
