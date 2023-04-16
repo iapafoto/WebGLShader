@@ -1,4 +1,4 @@
-# WebGLShader
+# WebGL Canvas Shader
 
 Simple example that shows how to associate multi glsl shaders to canvas in html page
 
