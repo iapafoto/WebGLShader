@@ -3,6 +3,7 @@
 Simple example that shows how to associate multi glsl shaders to canvas in html page
 
 Gestion of animation, pause / start, textures, canvas resize, setTime, etc.
+Init textures from files or 2d canvas.
 
 The usefull file is ***GLCanvas.js***
 
