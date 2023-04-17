@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<script src="GLCanvas.js"></script>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Canvas to WebGL Texture</title>
+	</head>
+	<body>
+		<canvas id="canvas" width="300" height="200"></canvas><br/>
+		<span>Click top picture to update 2D drawing canvas</span><br/><br/>
+		<canvas id="webgl-canvas" width="300" height="200"></canvas>
+		<script>
+			// Get the canvas elements
+			const canvas = document.getElementById("canvas");
+			const webglCanvas = document.getElementById("webgl-canvas");
+
+			// Get the 2D context of the canvas
+			const ctx = canvas.getContext("2d");
+
+			// Draw something on the canvas
+			ctx.fillStyle = "#f00";
+			ctx.fillRect(50, 50, 100, 100);
+	  
+	  		// ------------------------------------------------
+	    	// second canvas animated and using a texture 
+	    	// ------------------------------------------------
+			var texture0 = createTextureFromCanvas(webglCanvas, canvas); // loading texture
+			
+			const fragmentShaderSource = `#version 300 es
+				precision mediump float;
+				uniform float iTime;
+				uniform vec2 iResolution;
+				uniform sampler2D u_texture;
+				out vec4 outColor;
+				void main() {
+					vec2 uv = gl_FragCoord.xy / iResolution.xy;
+					outColor = vec4(vec3(.1,.2,.3) + (.6+.4*cos(3.*iTime))*texture(u_texture, uv).xyz,1.);
+				}
+			  `;
+
+			const glRenderer2 = new GLCanvas(webglCanvas, fragmentShaderSource, (rd) => {
+				rd.setTexture("u_texture1", texture0, 0); // set texture to webgl program
+			}); // rq: loop callback is undefined here
+			
+			canvas.addEventListener('click', () => {
+				const ctx = canvas.getContext("2d");
+				ctx.fillStyle = "#0f0";
+				ctx.fillRect(25, 25, 75, 75);
+				// need to reload canvas to texture if we want changes on glsl render
+				updateTexture(glRenderer2.gl, texture0, canvas);
+			});
+		
+		</script>	
+	</body>
+	
+		
+		  
