@@ -181,24 +181,13 @@ class GLCanvas {
 function loadTexture(canvas, url) {
 	var gl = canvas.getContext("webgl2");
 	const texture = gl.createTexture();
-	gl.bindTexture(gl.TEXTURE_2D, texture);
 	// Default init blue texture
+	gl.bindTexture(gl.TEXTURE_2D, texture);
 	const pixel = new Uint8Array([0, 0, 255, 255]); // opaque blue
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1,1,0, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
-	// Get real picture
+	// Get real picture ad update texture with it
 	const image = new Image();
-	image.onload = () => {
-		gl.bindTexture(gl.TEXTURE_2D, texture);
-		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-		// WebGL1 has different requirements for power of 2 images
-		if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-			gl.generateMipmap(gl.TEXTURE_2D); // Generate mips.
-		} else {
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-		}
-	};
+	image.onload = () => updateTexture(gl, texture, image);
 	image.src = url;
 	return texture;
 }
@@ -207,16 +196,25 @@ function isPowerOf2(value) {
   return (value & (value - 1)) === 0;
 }
 
+function updateTexture(gl, texture, image) {
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+	// WebGL1 has different requirements for power of 2 images
+	if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+		gl.generateMipmap(gl.TEXTURE_2D); // Generate mips.
+	} else {
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	}
+}
+
 // ------------------------------------------------------------------------------
 // Initialize a texture from the rendering of a canvas
-function createTextureFromCanvas(canvas) {
-	const gl = canvas.getContext("webgl2");
+function createTextureFromCanvas(canvasGL, canvasImg) {
+	const gl = canvasGL.getContext("webgl2");
 	const texture = gl.createTexture();
-	gl.bindTexture(gl.TEXTURE_2D, texture);
-	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	updateTexture(gl, texture, canvasImg) {
 	return texture;
 }
 
