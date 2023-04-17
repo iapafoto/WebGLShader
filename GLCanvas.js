@@ -209,7 +209,7 @@ function isPowerOf2(value) {
 
 // ------------------------------------------------------------------------------
 // Initialize a texture from the rendering of a canvas
-function loadTexture(canvas) {
+function createTextureFromCanvas(canvas) {
 	const gl = canvas.getContext("webgl2");
 	const texture = gl.createTexture();
 	gl.bindTexture(gl.TEXTURE_2D, texture);
