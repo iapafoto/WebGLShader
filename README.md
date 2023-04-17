@@ -6,7 +6,7 @@ Gestion of animation, pause / start, textures, canvas resize, setTime, etc.
 
 Init textures from files or 2d canvas.
 
-The usefull file is ***GLCanvas.js***
+The usefull file is ***GLCanvas.js*** others are examples.
 
 
 Simple association (run glsl animation on canvas0)
