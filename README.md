@@ -1,6 +1,6 @@
 # WebGL Canvas Shader
 
-Simple example that shows how to associate multi glsl shaders to canvas in html page
+Simple js lib that enables to associate super easily multi glsl shaders to canvas in html page
 
 Gestion of animation, pause / start, textures, canvas resize, setTime, etc.
 
