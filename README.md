@@ -41,3 +41,6 @@ Shader variable ***iTime*** and ***iResolution*** (*shadertoy* style) are automa
 		  vec2 uv = gl_FragCoord.xy / iResolution.xy;
 		  outColor = vec4(uv+u_param, .5+.5*cos(3.*iTime), 1.0);
 		}
+
+
+![Glsl as background](https://github.com/iapafoto/WebGLShader/blob/main/trombi.png)
