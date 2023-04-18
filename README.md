@@ -44,4 +44,4 @@ Shader variable ***iTime*** and ***iResolution*** (*shadertoy* style) are automa
 
 Exemple glsl animation as background in wordpress site
 
-![Glsl as background](https://github.com/iapafoto/WebGLShader/blob/main/trombi.png)
+![Glsl as background](https://github.com/iapafoto/WebGLShader/blob/main/trombi2.png)
