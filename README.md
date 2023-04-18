@@ -42,5 +42,6 @@ Shader variable ***iTime*** and ***iResolution*** (*shadertoy* style) are automa
 		  outColor = vec4(uv+u_param, .5+.5*cos(3.*iTime), 1.0);
 		}
 
+Exemple glsl animation as background in wordpress site
 
 ![Glsl as background](https://github.com/iapafoto/WebGLShader/blob/main/trombi.png)
