@@ -8,7 +8,7 @@ Init textures from files or 2d canvas.
 
 The usefull file is ***GLCanvas.js*** others are examples.
 
-# Usage
+# Syntax
 
 Simple association (run glsl animation on canvas0)
 
@@ -43,6 +43,8 @@ Shader variable ***iTime*** and ***iResolution*** (*shadertoy* style) are automa
 		  outColor = vec4(uv+u_param, .5+.5*cos(3.*iTime), 1.0);
 		}
 
-# Exemple glsl animation as background in wordpress site
+# Usage 
+
+glsl animation as background in wordpress site
 
 ![Glsl as background](https://github.com/iapafoto/WebGLShader/blob/main/trombi2.png)
