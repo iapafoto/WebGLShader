@@ -47,4 +47,11 @@ Shader variable ***iTime*** and ***iResolution*** (*shadertoy* style) are automa
 
 glsl animation as background of wordpress site
 
+	<canvas id="backanim" frameborder="0" 
+        	style="overflow:hidden;position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+	<script src="GLCanvas.js"></script>
+	<script>
+		const glRenderer1 = new GLCanvas("backanim", "metaballs.frag");
+	</script>
+
 ![Glsl as background](https://github.com/iapafoto/WebGLShader/blob/main/trombi2.png)
