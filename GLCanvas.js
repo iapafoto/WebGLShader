@@ -214,7 +214,7 @@ function updateTexture(gl, texture, image) {
 function createTextureFromCanvas(canvasGL, canvasImg) {
 	const gl = canvasGL.getContext("webgl2");
 	const texture = gl.createTexture();
-	updateTexture(gl, texture, canvasImg) {
+	updateTexture(gl, texture, canvasImg);
 	return texture;
 }
 
