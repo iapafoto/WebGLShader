@@ -8,6 +8,12 @@ Init textures from files or 2d canvas.
 
 The usefull file is ***GLCanvas.js*** others are examples.
 
+# Exemple
+
+[Render shaders in several canvas](https://iapafoto.ovh/gl/render.html)
+
+[Use canvas as texture in shader](https://iapafoto.ovh/gl/canvasAsTexture.html)
+
 # Syntax
 
 Simple association (run glsl animation on canvas0)
