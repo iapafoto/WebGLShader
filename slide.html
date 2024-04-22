@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="https://codemirror.net/5/lib/codemirror.css">
+  <link rel="stylesheet" href="https://codemirror.net/5/theme/darcula.css">
+  <link rel="stylesheet" href="https://codemirror.net/5/addon/lint/lint.css">
+
+  <script src="shaders.js"></script>
+  <script src="GLCanvasWithEdit.js"></script>
+  <script src="https://codemirror.net/5/lib/codemirror.js"></script>
+  <script src="https://codemirror.net/5/addon/edit/matchbrackets.js"></script>
+  <script src="https://codemirror.net/5/addon/lint/lint.js"></script>
+  <script src="glsl.js"></script>
+  
+  <title>Slideshow</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+	  background-color: #f0f0f0;
+	  font-size: 20px;
+    }
+
+	h1 {
+		text-align: center;
+		font-size: 30px;
+	}
+
+    #slideshow-container {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .slide {
+	  //animation: fade 1s ease-in-out;
+     //display: none;
+      //position: absolute;
+      width: 100%;
+    }
+	
+	@keyframes fade {
+	  from {
+		opacity: 0.4;
+	  }
+	  to {
+		opacity: 1;
+	  }
+	}
+
+    .iframe-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+
+	  display: flex;
+	  justify-content: center;
+      align-items: center;
+    }
+
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #slide-list {
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 20px;
+      //background-color: #00000050;
+    }
+
+    #navigation-buttons {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .navigation-button {
+      padding: 10px;
+      margin: 5px;
+	  width:220px;
+      cursor: pointer;
+	  font-size: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+	  text-align: center;
+    }
+	
+    .menu-button {    
+    }
+
+    .infos {
+		position: fixed;
+		top: 40px;
+		right: 30px;
+		padding: 20px;
+        background-color: white;
+		border:solid;
+		border-color: black;
+		border-radius: 10px;
+    }
+
+	main {
+      display: flex;
+      flex-basis:auto;
+    }
+	.CodeMirror {
+		font-size: 20px;
+	}
+  </style>
+</head>
+<body>
+
+<div id="slideshow-container">
+
+	<div class="slide">
+		<h1>Comment faire rentrer une bibliothéque dans un timbre poste ?</h1>
+		<!--div class="iframe-container"-->
+	 <!--iframe width="1200" height="600" frameborder="0" allowfullscreen="allowfullscreen" src="https://www.shadertoy.com/embed/XcfGW8?gui=false&t=10&paused=false&muted=true"></iframe-->
+		<!--/div-->
+		<ul>
+			<li>biblio.bmp - ??? ko</li>
+			<li>biblio.png - 5600ko</li>
+			<li>biblio.jpg - 1000ko</li>
+			<li>...</li>
+		</ul>
+	</div>
+  
+	<div class="slide">
+		<h1>Quelles sont les étapes du rendu OpenGL ?</h1>
+		<canvas id="webgl-canvas1" style="width:800px; height:400px"></canvas>
+		<!--div class="iframe-container">
+			<iframe width="1200" height="600" frameborder="0" allowfullscreen="allowfullscreen" src="https://www.shadertoy.com/embed/WlSXRW?gui=false&t=10&paused=true&muted=true"></iframe>
+		</div-->
+		<h3>Etapes du rendu Opencl</h3>
+		<img src="img/fragment.png" width="100%"></img>
+		<h3>Le fragment shader</h3>
+		<ul>
+			<li>Le rendu des couleurs se fait via un programe, le <b>fragment shader</b></li>
+			<li>Le fragment shader est compilé et exécuté par le GPU</li>
+			<li>Une scéne peut contenir de nombreux fragment shader</li>
+			<li>Tous les pixels sont +/- calculés en même temps !</li> 
+		</ul>	
+	</div>
+
+	<div class="slide">
+		<h1>Comment dessiner dans un shader ?</h1>
+		<div class="main">
+			<canvas id="webgl-canvas2" style="width:800px; height:400px"></canvas>
+			<textarea id="glsl-editor2" style="width:800px; height:150px"></textarea>
+		</div>
+		<h3>main()</h3>
+		<ul>
+			<li>La fonction <b>mainImage()</b> s'execute pour chaque pixels</li>
+			<li>Elle reçoit en entrée, la coordonnée du pixel (<b>coord</b>)</li>
+			<li>Elle doit retourner la couleur du pixel (<b>col</b>)</li>
+			<li>Elle peut aussi utiliser certain paramétes généraux (<b>iTime</b>, <b>iResolution</b>, etc.)</li>
+		</ul>
+		<div class="infos">
+			<img src="img/smoothstep.png"></img>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>Qu'est ce qu'un Signed Distance Field ?</h1>
+		<div class="main">
+		  <canvas id="webgl-canvas3" style="width:800px; height:400px"></canvas>
+		  <textarea id="glsl-editor3" style="width:800px; height:150px"></textarea>
+		</div>
+		<h3>Signed Distance Field</h3>
+		<ul>
+			<li>Le <b>SDF</b> indique une distance vers un contour</li>
+			<li>Le <b>SDF</b> est positif à l'exterieur et négatif à l'intérieur</li>
+			<li>Il permet d'effectuer simplement des opérations (union, intersection, soustraction)</li>
+			<li>Il peut être déformé et n'a pas forcement besoin d'être exact !</li>
+		</ul>	
+		<div class="infos">
+			<img src="img/union.png"></img>
+		</div>
+	</div>
+  
+    <div class="slide">
+		<h1>Rasterization vs Ray-tracing vs Ray-marching ?</h1>
+		<img width="1000" height="600" src="img/raster-raytrace.png"></img>
+		<h3>Signed Distance Field</h3>
+		<ul>
+			<li><b>Rasterization :</b> la scéne est découpé en triangles qui sont triés puis projetées à l'écran</li>
+			<li><b>Ray-tracing :</b></li>
+			<ul>
+				<li>Lance un rayon pour chaque pixel de l'écran</li> 
+				<li>Calcul pour chaque rayon, le point d'intersection et la normale avec les objets</b>
+			</ul>
+			<li>Le <b>Ray-marching</b> ressemble au ray-tracing mais recherche une surface implicite dans le SDF</li>
+		</ul>	
+	</div>
+  
+    <div class="slide">
+		<h1>Comment faire un rendu 3D avec le ray-marching ?</h1>
+		<canvas id="webgl-canvas5A" style="width:480px; height:400px"></canvas>
+		<canvas id="webgl-canvas5B" style="width:480px; height:400px"></canvas>
+		<h3>Les bases du rendu via ray-marching</h3>
+		<ul>
+			<li>Les surfaces sont implicites et correspondent à l'isoligne 0 du SDF</li>
+			<li>On trouve le point d'intersection en <b>itérant</b> dans le SDF par pas de distance locale</li>
+			<li>La normale à la surface est obtenue grâce à la normale du <b>gradient</b> du SDF</li>
+			<li>Les formules décriavnt les objets sont beaucoup plus simples que en ray-tracing</li>
+			<li>On a tout ce qu'il faut pour faire de la 3D via ray-marching !</li>
+		</ul>	
+	</div>
+	
+	<div class="slide">
+		<h1>Exemple de rendu 3D</h1>
+		<div class="main">
+		  <canvas id="webgl-canvas6" style="width:800px; height:400px"></canvas>
+		  <textarea id="glsl-editor6" style="width:800px; height:350px"></textarea>
+		</div>
+	</div>
+	
+	<div class="slide">
+		<h1>Des questions ?</h1>
+		<canvas id="webgl-canvas0" style="width:800px; height:600px"></canvas>
+		<!--ul>
+			<li>Fragment Shader</li>
+			<li>Signed Distance Field</li>
+			<li>Ray Marching</li>
+			<li>Demo 4K</li> 
+		</ul-->
+	</div>
+</div>
+
+<div id="slide-list"></div>
+
+<div id="navigation-buttons">
+  <button class="navigation-button" onclick="plusSlides(-1)">Précédent</button>
+  <button class="navigation-button" onclick="plusSlides(1)">Suivant</button>
+</div>
+
+<script>
+
+	var glRenderer0 = new GLCanvas("webgl-canvas0", shCode0);
+	var glRenderer1 = new GLCanvas("webgl-canvas1", shCode3);
+	var glRenderer5A = new GLCanvas("webgl-canvas5A", shCode5);
+	var glRenderer5B = new GLCanvas("webgl-canvas5B", shCode5B);
+
+// ---------------------------------------------------------
+
+	var glRenderer2 = new GLCanvas("webgl-canvas2", shCode1);
+	var editor2 = glRenderer2.associateEditor("glsl-editor2", true, "darcula", true);
+	editor2.setSize(800, 145);
+
+// ---------------------------------------------------------
+	
+	var glRenderer3 = new GLCanvas("webgl-canvas3", shCode2);
+	var editor3 = glRenderer3.associateEditor("glsl-editor3", true, "darcula", true);
+	editor3.setSize(800, 145);
+
+// ---------------------------------------------------------
+	
+	var glRenderer6 = new GLCanvas("webgl-canvas6", shCode6);
+	var editor6 = glRenderer6.associateEditor("glsl-editor6", true, "darcula", true);
+	editor6.setSize(800, 400);
+	
+  </script>
+  
+<script>
+    let counter = 0;
+
+    document.addEventListener('keydown', function (event) {
+      if (event.code === 'Space') {
+        counter++;//addNewElement();
+		// todo display element /pages according to counter
+      }
+    });
+	
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  // Mettez à jour la fonction showSlides pour gérer l'animation
+	function showSlides(n) {
+		var i;
+		var slides = document.getElementsByClassName("slide");
+		var btns = document.getElementsByClassName("menu-button");
+
+		if (n > slides.length) {
+			slideIndex = 1;
+		}
+
+		if (n < 1) {
+			slideIndex = slides.length;
+		}
+
+		// Masquez toutes les diapositives
+		for (i = 0; i < slides.length; i++) {
+			slides[i].style.display = "none";
+			btns[i].style.backgroundColor =  i == slideIndex-1 ? "#4CAF50" : "#AAAAAA";
+		}
+
+		// Affichez la diapositive actuelle
+		slides[slideIndex - 1].style.display = "block";
+		
+		if (slideIndex == 2) {
+			glRenderer1.start();
+		} else {
+			glRenderer1.pause(); 
+		}
+		if (slideIndex == 6) {
+			glRenderer5A.start();
+			glRenderer5B.start();
+		} else {
+			glRenderer5A.pause(); 
+			glRenderer5B.pause();
+		}
+		if (slideIndex == 7) {
+			glRenderer6.start();
+		} else {
+			glRenderer6.pause(); 
+		}
+		if (slideIndex == 8) {
+			glRenderer0.start();
+		} else {
+			glRenderer0.pause(); 
+		}
+	}
+	
+	function initMenu() {
+		// Mettez à jour la liste des diapositives
+		var slideList = document.getElementById("slide-list");
+		slideList.innerHTML = "";
+		slideList.innerHTML += "<button id='menu1' class='navigation-button menu-button' onclick='currentSlide(1)'>Intro</button></br>";
+		slideList.innerHTML += "<button id='menu2' class='navigation-button menu-button' onclick='currentSlide(2)'>Rendu OpenGL</button></br>";
+		slideList.innerHTML += "<button id='menu3' class='navigation-button menu-button' onclick='currentSlide(3)'>Fragment shader</button></br>";
+		slideList.innerHTML += "<button id='menu4' class='navigation-button menu-button' onclick='currentSlide(4)'>Distance field</button></br>";
+		slideList.innerHTML += "<button id='menu5' class='navigation-button menu-button' onclick='currentSlide(5)'>Ray marching</button></br>";
+		slideList.innerHTML += "<button id='menu6' class='navigation-button menu-button' onclick='currentSlide(6)'>Rendu scéne 3D</button></br>";
+		slideList.innerHTML += "<button id='menu7' class='navigation-button menu-button' onclick='currentSlide(7)'>Rendu SDF 3D</button></br>";
+		slideList.innerHTML += "<button id='menu1' class='navigation-button menu-button' onclick='currentSlide(8)'>Questions</button></br>";
+	}
+	
+	initMenu();
+	
+	var slideIndex = 1;
+	showSlides(slideIndex);
+	
+</script>
+
+</body>
+</html>
